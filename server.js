@@ -135,3 +135,72 @@ const addDepartment = function () {
       });
     });
 };
+
+// prompt for adding role
+const addRole = function () {
+  return inquirer
+    .prompt([
+      {
+        // prompt for role name
+        type: "input",
+        name: "role",
+        message: "What is the name of the role you want to add?",
+        validate: (role) => {
+          if (role) {
+            return true;
+          } else {
+            console.log("Please enter a role!");
+            return false;
+          }
+        },
+      },
+      {
+        // prompt for role salary
+        type: "input",
+        name: "salary",
+        message: "What is the salary of the role?",
+        validate: (salary) => {
+          if (salary) {
+            return true;
+          } else {
+            console.log("Please enter a salary!");
+            return false;
+          }
+        },
+      },
+    ])
+    .then((answer) => {
+      const params = [answer.role, answer.salary];
+
+      const rolesql = "SELECT name, id FROM department";
+
+      db.query(rolesql, (err, data) => {
+        if (err) throw err;
+
+        const dept = data.map(({ name, id }) => ({ name: name, value: id }));
+        inquirer
+          .prompt([
+            {
+              type: "list",
+              name: "dept",
+              message: "What department the role belongs to?",
+              choices: dept,
+            },
+          ])
+          .then((deptChoice) => {
+            const dept = deptChoice.dept;
+            params.push(dept);
+
+            const sql =
+              "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)";
+
+            db.query(sql, params, (err, result) => {
+              if (err) throw err;
+              console.log("Added to the roles!");
+
+              viewRoles();
+            });
+          });
+      });
+    });
+};
