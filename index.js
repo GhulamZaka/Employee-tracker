@@ -1,29 +1,93 @@
+const inquirer = require("inquirer");
 const express = require("express");
-
-const PORT = process.env.PORT || 3001;
-const app = express();
 const mysql = require("mysql2");
 
-require("dotenv").config();
+//const PORT = process.env.PORT || 3001;
+const app = express();
 
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-//////////////////////////////////////////
-// // Use environment variables for security
-const database = "????"; // Database name
-const dbConn = {
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: database,
+//const cTable = require("console.table");
+
+const menu = function () {
+  return inquirer.prompt([
+    {
+      // menu prompt
+      type: "list",
+      message: "What would you like to do?",
+      name: "options",
+      choices: [
+        "View all departments",
+        "View all roles",
+        "View all emloyees",
+        "Add a department",
+        "Add a role",
+        "Add an employee",
+        "Update an employee role",
+      ],
+    },
+  ]);
 };
-// Connect to database
-const db = mysql.createConnection(dbConn);
-console.log("Connected to the election database.");
 
-//////////////////////////////////////////
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const department = function () {
+  return inquirer.prompt([
+    {
+      // prompts for department name
+      type: "text",
+      name: "department",
+      message: "What is the name of the department?",
+    },
+  ]);
+};
+
+const role = function () {
+  return inquirer.prompt([
+    {
+      // prompt for choosing role
+      type: "text",
+      name: "role-name",
+      message: "What is the name of the role?",
+    },
+    {
+      // prompt for the role salary
+      type: "text",
+      name: "role-salary",
+      message: "What is the salary of the role?",
+    },
+    {
+      // prompt for the role department
+      type: "text",
+      name: "role-department",
+      message: "Which department does the role belong to?",
+    },
+  ]);
+};
+
+const employee = function () {
+  return inquirer.prompt([
+    {
+      // prompt for adding employee
+      type: "text",
+      name: "employee-firstName",
+      message: "What is the employee's first name?",
+    },
+    {
+      // prompt for adding employee
+      type: "text",
+      name: "employee-lastName",
+      message: "What is the employee's last name?",
+    },
+    {
+      // prompt for adding employee
+      type: "text",
+      name: "employee-role",
+      message: "What is the employee's role?",
+    },
+    {
+      // prompt for adding employee
+      type: "text",
+      name: "employee-manager",
+      message: "Who is the employee's manager?",
+    },
+  ]);
+};
+
+menu().then(department).then(role).then(employee);
