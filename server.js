@@ -302,6 +302,7 @@ const addEmployee = function () {
 // updating an employee role
 const updateEmployee = function () {
   const employeeSql = "SELECT * FROM employee";
+
   db.query(employeeSql, (err, data) => {
     if (err) throw err;
     const employees = data.map(({ id, first_name, last_name }) => ({
@@ -318,7 +319,7 @@ const updateEmployee = function () {
         },
       ])
       .then((employeeChoice) => {
-        const employee = employeeChoice.name;
+        const employee = employeeChoice.update;
         const params = [];
         params.push(employee);
 
