@@ -84,7 +84,9 @@ const viewDepartments = function () {
 // Display all roles
 const viewRoles = function () {
   console.log("----- All Roles -----");
-  const sql = "SELECT * FROM role";
+  const sql =
+    //"SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON role.department_id = department.id";
+    "SELECT role.*, department.name AS department_id FROM role INNER JOIN department ON role.department_id = department.id";
 
   db.query(sql, (err, rows) => {
     if (err) throw err;
@@ -96,7 +98,8 @@ const viewRoles = function () {
 // Display all employees
 const viewEmployees = function () {
   console.log("----- All Employees -----");
-  const sql = "SELECT * FROM employee";
+  const sql =
+    "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, employee.manager_id FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id";
 
   db.query(sql, (err, rows) => {
     if (err) throw err;

@@ -6,16 +6,16 @@ VALUES
   ('Legal'),
   ('Finance');
 
-INSERT INTO role (title, Salary, department_id)
+INSERT INTO role (title, department_id, Salary)
 VALUES
-  ('Sales Lead', 10000, 1),
-  ('Salesperson', 8000, 1),
-  ('Software Engineer', 120000, 2),
-  ('Lead Engineer', 150000, 2),
-  ('Lawyer', 190000, 3),
-  ('Legal Team Lead', 250000, 3),
-  ('Acountant', 125000, 4),
-  ('Acount Manager', 160000, 4);
+  ('Sales Lead', 1, 10000),
+  ('Salesperson', 1, 8000),
+  ('Software Engineer', 2, 120000),
+  ('Lead Engineer', 2, 150000),
+  ('Lawyer', 3, 190000),
+  ('Legal Team Lead', 3, 250000),
+  ('Acountant', 4, 125000),
+  ('Account Manager', 4, 160000);
 
 
 
